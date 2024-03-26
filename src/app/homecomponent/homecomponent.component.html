@@ -1,0 +1,16 @@
+<div id="home-black">
+    <div id="side-panel">
+        <div id="side-panel-content">
+            <ul class="nav-menu">
+                <li routerLink="/home/dashboard" routerLinkActive="active-nav"><fa-icon class="icon-side-panel" [icon]="house"></fa-icon><a >Dashboard</a></li>
+                <li routerLinkActive="active-nav" routerLink="/home/api-projection"><fa-icon class="icon-side-panel" [icon]="table"></fa-icon><a >API Projection</a></li>
+                <li routerLinkActive="active-nav" routerLink="/home/client-projection"><fa-icon class="icon-side-panel" [icon]="browser"></fa-icon><a >Client Projection</a></li>
+              </ul>
+        </div>
+
+    </div>
+    <div id="router-container">
+        <router-outlet></router-outlet>
+    </div>
+    
+</div>

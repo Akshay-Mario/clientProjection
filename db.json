@@ -1,0 +1,37 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Post 1",
+      "body": "Body of post 1"
+    },
+    {
+      "id": "2",
+      "title": "Post 2",
+      "body": "Body of post 2"
+    }
+  ],
+  "apiProjection": [
+    {
+      "id": 90034,
+      "apiName": "apiname",
+      "apiYear": 2023,
+      "apiPeakHour": 233232,
+      "apiPeakDay": 323234
+    },
+    {
+      "id": 350,
+      "apiName": "apinamew",
+      "apiYear": 2024,
+      "apiPeakHour": 23093344,
+      "apiPeakDay": 354645
+    }
+  ],
+  "year": [
+    {
+      "0": 2023,
+      "1": 2024,
+      "id": "yearData"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+<div id="apiprojection" class="projection-container">
+    <div id="header">
+        <p>API Projections</p>
+        <div class="cursor">
+            <button class="add-button" (click) = "openAddModal(apiAddModal)"><fa-icon class="icon-side-panel" [icon]="addButton"></fa-icon>
+                <label class="button-label" >Add data</label>
+            </button>
+        </div>
+    </div>
+    <div class="horizontal-line"> </div>
+    <div class="ag-grid-container-projection">
+        <ag-grid-angular class="ag-theme-quartz-dark" style="height: 100%" 
+        [rowData]="rowData2" 
+        [columnDefs]="colDefs2">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<ng-template #apiAddModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="add-modal">Profile update</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<label for="serviceName">API name</label>
+				<form class="input-group" (ngSubmit)="onSubmit()"  [formGroup]="apiAddProjection">
+					<input
+						id="serviceName"
+						class="form-control"
+						placeholder="service name"
+						name="dp"
+                        [class]="{'is-invalid':isAddFormSubmitted && apiAddProjection.controls['apiName'].errors}"
+                        formControlName="apiName"
+					/>
+                    <label for="year">Year</label>
+                    <input
+						id="year"
+                        type="number"
+						class="form-control"
+						placeholder="yyyy"
+						name="sn"
+                        [class]="{'is-invalid':isAddFormSubmitted && apiAddProjection.controls['apiYear'].errors}"
+                        formControlName="apiYear"
+					/>
+                    <label for="peakHour">Peak (Hour Volume)</label>
+                    <input
+						id="peakHour"
+                        type="number"
+						class="form-control"
+						placeholder="hour volume"
+						name="ph"
+                        [class]="{'is-invalid':isAddFormSubmitted && apiAddProjection.controls['apiPeakHour'].errors}"
+                        formControlName="apiPeakHour"
+					/>
+                    <label for="peakDay">Peak (Day Volume)</label>
+                    <input
+                        type="number"
+						id="peakDay"
+						class="form-control"
+						placeholder="day volume"
+						name="pw"
+                        [class]="{'is-invalid':isAddFormSubmitted && apiAddProjection.controls['apiPeakDay'].errors}"
+                        formControlName="apiPeakDay"
+					/>
+                    <div class="modal-footer">
+                        <button  type="submit" [disabled] = "isAddFormSubmitted && apiAddProjection.invalid"  (click)="isAddFormSubmitted? modal.close('Save click') : ''">Add</button>
+                    </div>
+
+                </form>
+			</div>
+		</form>
+	</div>
+	
+</ng-template>
+
+   
