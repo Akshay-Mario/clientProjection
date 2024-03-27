@@ -12,6 +12,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { EditDeletebuttonComponent } from './homecomponent/api-projection/edit-deletebutton/edit-deletebutton.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomecomponentComponent,
     DashboardComponent,
     ApiProjectionComponent,
-    ClientProjectionComponent
+    ClientProjectionComponent,
+    EditDeletebuttonComponent
   ],
   imports: [
     BrowserModule,

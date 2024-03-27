@@ -1,10 +1,11 @@
 import { Component, inject, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { faAdd, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faCirclePlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColDef, ColGroupDef } from 'ag-grid-community'; // Column Definition Type Interface
+import { IapiColDef, IapiProjectionModel } from 'src/app/models/apiprojeciton.model';
 import { ApiProjectionService } from 'src/app/services/api-projection.service';
 import { YearService } from 'src/app/services/year.service';
+import { EditDeletebuttonComponent } from './edit-deletebutton/edit-deletebutton.component';
 
 @Component({
   selector: 'app-api-projection',
@@ -19,35 +20,40 @@ export class ApiProjectionComponent {
   public isAddFormSubmitted: boolean = false;
   public isformSubmitSucess: boolean = false;
   public year: Number[] = [];
-  // Row Data: The data to be displayed.
-  rowData2 = [
-    { ApiName: "apiname", Hourly2023: 233232, Daily2023: 323234, Hourly2024: 23093344, Daily2024: 354645 },
-    { ApiName: "apiname", Hourly2023: 233232, Daily2023: 323234, Hourly2025: 23093344, Daily2025: 354645 },
-
-  ];
-
-  colDefs2: (ColDef<{ ApiName: string; Hourly: string; Daily: number; }> | ColGroupDef)[] = [
-    { headerName: 'Api Name', field: "ApiName" },
-    {
-      headerName: "2023", children: [
-        { headerName: 'Hourly(peak Hours)', field: 'Hourly2023' },
-        { headerName: 'Daily(peak Hours)', field: 'Daily2023' }
-      ]
-    },
-    {
-      headerName: "2024", children: [
-        { headerName: 'Hourly(peak Hours)', field: 'Hourly2024' },
-        { headerName: 'Daily(peak Hours)', field: 'Daily2024' }
-      ]
-    },
-    {
-      headerName: "2025", children: [
-        { headerName: 'Hourly(peak Hours)', field: 'Hourly2025' },
-        { headerName: 'Daily(peak Hours)', field: 'Daily2025' }
-      ]
-    },
   
-  ];
+  public faEdit = faEdit;
+
+
+  // Row Data: The data to be displayed.
+  // rowData2 = [
+  //   { ApiName: "apiname", Hourly2023: 233232, Daily2023: 323234, Hourly2024: 23093344, Daily2024: 354645 },
+  //   { ApiName: "apiname2", Hourly2023: 233232, Daily2023: 323234, Hourly2025: 23093344, Daily2025: 354645 },
+
+  // ];
+
+  // colDefs2: (ColDef<{ ApiName: string; Hourly: string; Daily: number; }> | ColGroupDef)[] = [
+  //   { headerName: 'Api Name', field: "ApiName" },
+  //   {
+  //     headerName: "2023", children: [
+  //       { headerName: 'Hourly(peak Hours)', field: 'Hourly2023' },
+  //       { headerName: 'Daily(peak Hours)', field: 'Daily2023' }
+  //     ]
+  //   },
+  //   {
+  //     headerName: "2024", children: [
+  //       { headerName: 'Hourly(peak Hours)', field: 'Hourly2024' },
+  //       { headerName: 'Daily(peak Hours)', field: 'Daily2024' }
+  //     ]
+  //   },
+  //   {
+  //     headerName: "2025", children: [
+  //       { headerName: 'Hourly(peak Hours)', field: 'Hourly2025' },
+  //       { headerName: 'Daily(peak Hours)', field: 'Daily2025' }
+  //     ]
+  //   },
+
+  // ];
+
 
   constructor(private formgroup: FormBuilder,
     private apiProjectionService: ApiProjectionService,
@@ -55,8 +61,20 @@ export class ApiProjectionComponent {
     this.apiAddProjection = {} as FormGroup;
   }
 
+
+  rowData: IapiProjectionModel[] = [];
+
+  colDefs: IapiColDef[] = [
+    { headerName: 'Api Name', field: "apiName" },
+    { headerName: 'Year', field: "apiYear" },
+    { headerName: 'Peak(Hour Volume)', field: "apiPeakHour" },
+    { headerName: 'Peak(Day VOlume)', field: "apiPeakDay" },
+    { headerName: 'Actions', field: "actions",  cellRenderer:  EditDeletebuttonComponent},
+  ]
+
   ngOnInit() {
     this.initializeForm();
+    this.getTableData();
   }
 
   public initializeForm() {
@@ -70,6 +88,13 @@ export class ApiProjectionComponent {
     )
   }
 
+  public getTableData() {
+    this.apiProjectionService.getApiProjeciton().subscribe((result) => {
+      console.log(result);
+      this.rowData = result;
+    });
+  }
+
   public openAddModal(content: TemplateRef<any>) {
     this.modalService.open(content, { ariaLabelledBy: 'exampleModalCenterTitle', centered: true }).result.then(
       (result) => {
@@ -80,6 +105,7 @@ export class ApiProjectionComponent {
       },
     );
   }
+
 
   private getDismissReason(reason: any): string {
     switch (reason) {
@@ -98,13 +124,17 @@ export class ApiProjectionComponent {
       this.isAddFormSubmitted = true;
       return;
     }
+    else if (this.isDuplicate()) {
+      alert("duplicate data, please use edit option or change the input data")
+      return;
+    }
     //declare constants
     const yearValue = this.apiAddProjection.get('apiYear')?.value;
     const formValues = this.apiAddProjection.value
 
     //if valid add value to id 
     formValues["id"] = Math.floor(Math.random() * 100000);
-  
+
     //fetch all years and check if year addded was already present
     this.yearService.getYearData().subscribe((result) => {
       result = Object.values(result);
@@ -124,6 +154,7 @@ export class ApiProjectionComponent {
     //post methid to add data
     this.apiProjectionService.postApiProjection(formValues).subscribe((result) => {
       console.log('saved successfully', result);
+      this.getTableData();
     },
       (error) => {
         console.log('saving unsuccesfull', error);
@@ -133,8 +164,17 @@ export class ApiProjectionComponent {
     //reset form
     this.apiAddProjection.reset();
     this.isformSubmitSucess = true;
-    this.isformSubmitSucess ? this.isAddFormSubmitted = false : this.isAddFormSubmitted = true;
+    this.modalService.dismissAll("saved")
+  }
 
+  //function to edit 5the row data
+  editRow(id: number) {
+    console.warn("edit id ", id)
+  }
+
+  isDuplicate(): boolean {
+    const formData = this.apiAddProjection.value;
+    return this.rowData.some(item => item.apiName === formData.apiName && item.apiYear === formData.apiYear);
   }
 
 }

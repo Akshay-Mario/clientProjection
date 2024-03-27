@@ -10,15 +10,16 @@
     <div class="horizontal-line"> </div>
     <div class="ag-grid-container-projection">
         <ag-grid-angular class="ag-theme-quartz-dark" style="height: 100%" 
-        [rowData]="rowData2" 
-        [columnDefs]="colDefs2">
+        [rowData]="rowData" 
+        [columnDefs]="colDefs">
         </ag-grid-angular>
     </div>
 </div>
 
+
 <ng-template #apiAddModal let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="add-modal">Profile update</h4>
+		<h4 class="modal-title" id="add-modal">Add Data</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
@@ -65,7 +66,7 @@
                         formControlName="apiPeakDay"
 					/>
                     <div class="modal-footer">
-                        <button  type="submit" [disabled] = "isAddFormSubmitted && apiAddProjection.invalid"  (click)="isAddFormSubmitted? modal.close('Save click') : ''">Add</button>
+                        <button  type="submit" [disabled] = "isAddFormSubmitted && apiAddProjection.invalid" >Add</button>
                     </div>
 
                 </form>
