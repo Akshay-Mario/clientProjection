@@ -1,83 +1,48 @@
 {
-  "posts": [
-    {
-      "id": "1",
-      "title": "Post 1",
-      "body": "Body of post 1"
-    },
-    {
-      "id": "2",
-      "title": "Post 2",
-      "body": "Body of post 2"
-    }
-  ],
   "apiProjection": [
     {
-      "id": "90034",
-      "apiName": "apiname",
-      "apiYear": 2023,
-      "apiPeakHour": 233232,
-      "apiPeakDay": 323234
+      "id": "2",
+      "apiName": "api Name",
+      "hourly2023": 2,
+      "daily2023": 2,
+      "hourly2024": 2,
+      "daily2024": 2
     },
     {
-      "id": "350",
-      "apiName": "apinamew",
-      "apiYear": 2024,
-      "apiPeakHour": 23093344,
-      "apiPeakDay": 354645
+      "id": "73784",
+      "apiName": "sdfc"
     },
     {
-      "id": 93998,
-      "apiName": "test",
-      "apiYear": 2323,
-      "apiPeakHour": 2342342,
-      "apiPeakDay": 234234234
+      "id": "16346",
+      "apiName": "new api"
     },
     {
-      "id": 68768,
-      "apiName": "teste",
-      "apiYear": 2233,
-      "apiPeakHour": 234234,
-      "apiPeakDay": 23423423
+      "id": "61428",
+      "apiName": "new api 2"
+    }
+  ],
+  "clientProjection": [
+    {
+      "id": "2",
+      "clientName": "XOLT Locator",
+      "year": 2008,
+      "apiID": "73784",
+      "hourly": 8,
+      "daily": 0
     },
     {
-      "id": 9234,
-      "apiName": "sds",
-      "apiYear": 2323,
-      "apiPeakHour": 2323,
-      "apiPeakDay": 23232
-    },
-    {
-      "id": 6985,
-      "apiName": "testts",
-      "apiYear": 23423,
-      "apiPeakHour": 23423,
-      "apiPeakDay": 23423423
-    },
-    {
-      "id": 2047,
-      "apiName": "lskdcmkl",
-      "apiYear": 32,
-      "apiPeakHour": 23,
-      "apiPeakDay": 223423
-    },
-    {
-      "id": 69033,
-      "apiName": "apiname",
-      "apiYear": 234234,
-      "apiPeakHour": 43342,
-      "apiPeakDay": 2342342
+      "id": "3",
+      "clientName": "XOLT Locator",
+      "year": 2004,
+      "apiID": "2",
+      "hourly": 6,
+      "daily": 0
     }
   ],
   "year": [
     {
       "0": 2023,
       "1": 2024,
-      "2": 2323,
-      "3": 2233,
-      "4": 23423,
-      "5": 32,
-      "6": 234234,
       "id": "yearData"
     }
   ]

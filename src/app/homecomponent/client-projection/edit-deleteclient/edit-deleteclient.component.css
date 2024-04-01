@@ -1,0 +1,25 @@
+.action-button {
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 5px 5px;
+    height: 83%;
+    background-color: rgb(194, 194, 194);
+}
+
+#action-comtainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.red {
+    color: rgb(212, 86, 86)
+}
+
+.grey {
+    color:rgb(87, 87, 87);
+}

@@ -1,1 +1,57 @@
-<p>client-projection works!</p>
+<div id="apiprojection" class="projection-container">
+    <div id="header">
+        <p>Client Projections</p>
+        <div class="cursor">
+            <button class="add-button" (click)="openingAddModal(clientAddModal)"><fa-icon class="icon-side-panel"
+                    [icon]="addButton"></fa-icon>
+                <label class="button-label">Add data</label>
+            </button>
+        </div>
+    </div>
+    <div class="horizontal-line"> </div>
+    <div class="ag-grid-container-projection">
+        <ag-grid-angular style="width: 100%; height: 100%;" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+            [groupDisplayType]="groupDisplayType" [rowData]="rowData" [class]="themeClass" [context]="this.context"
+            (gridReady)="onGridReady($event)"></ag-grid-angular>
+    </div>
+</div>
+
+
+<ng-template #clientAddModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="add-modal">Add Data</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form class="input-group" (ngSubmit)="onSubmit()" [formGroup]="clientProjectionForm">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="clientName">Client name</label>
+                <input id="clientName" class="form-control" placeholder="client name" name="dp"
+                    [class]="{'is-invalid':isAddFormSubmitted && clientProjectionForm.controls['clientName'].errors}"
+                    formControlName="clientName" />
+                <label for="serviceName">Api name</label>
+                <select class="form-control form-select" id="apiName" formControlName="apiID"
+                    [class]="{'is-invalid':isAddFormSubmitted && clientProjectionForm.controls['clientName'].errors}">
+                    <option value="" disabled selected>Select api</option> <!-- Placeholder option -->
+                    <option *ngFor="let api of apiProjectionData" [ngValue]="api">{{ api["apiName"] }}</option>
+                </select>
+                <label for="year">Year</label>
+                <input id="year" type="number" class="form-control" placeholder="year" name="year"
+                    [class]="{'is-invalid':isAddFormSubmitted && clientProjectionForm.controls['year'].errors}"
+                    formControlName="year" />
+                <label for="hourly">Hourly Peak</label>
+                <input id="hourly" type="number" class="form-control" placeholder="hourly" name="dp"
+                    formControlName="hourly" /> 
+                <label for="daily">Daily Peak</label>
+                <input id="daily" type="number" class="form-control" placeholder="daily" name="dp"
+                    formControlName="daily" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" [disabled]="isAddFormSubmitted && clientProjectionForm.invalid">Add</button>
+        </div>
+    </form>
+
+
+</ng-template>

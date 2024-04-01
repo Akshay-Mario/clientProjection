@@ -3,11 +3,10 @@ import { ColDef } from 'ag-grid-community';
 
 export interface IapiProjectionModel {
     id: number;
-   apiName: string, 
-   apiYear:  number,
-   apiPeakHour:  number,
-   apiPeakDay:  number
+    apiName: string;
+    
 }
+
 
 export interface IapiColDef extends ColDef{
     id?: number;
@@ -17,4 +16,5 @@ export interface IapiColDef extends ColDef{
     apiPeakDay?: number;
     action?: string;
     data?: any;
+    context?: any;
 }

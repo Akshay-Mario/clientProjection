@@ -5,12 +5,13 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
 }
 
 #side-panel {
     background-color: #444444;
     width: fit-content;
-    height: 93vh; /* Adjust height as needed */
+    height: 98vh; /* Adjust height as needed */
     margin: 1vh  10px; /* Adjust margin as needed */
     
     display: flex;

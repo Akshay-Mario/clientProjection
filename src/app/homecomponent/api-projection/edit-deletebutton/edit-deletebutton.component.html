@@ -1,7 +1,7 @@
 <div id="action-comtainer">
     <button class="action-button" (click)="editButton(apiEditModal)"><fa-icon class="icon-side-panel grey"
             [icon]="editIcon"></fa-icon></button>
-    <button class="action-button red" (click)="openEditModal(deleteModal)"><fa-icon class="icon-side-panel red"
+    <button class="action-button red" (click)="deleteButton(deleteModal)"><fa-icon class="icon-side-panel red"
             [icon]="deleteicon"></fa-icon></button>
 
 </div>
@@ -22,7 +22,7 @@
                     <input id="serviceName" class="form-control" placeholder="service name" name="dp"
                         [class]="{'is-invalid':isEditFormSubmitted && apiEditProjectionForm.controls['apiName'].errors}"
                         formControlName="apiName" />
-                    <label for="year">Year</label>
+                    <!-- <label for="year">Year</label>
                     <input id="year" type="number" class="form-control" placeholder="yyyy" name="sn"
                         [class]="{'is-invalid':isEditFormSubmitted && apiEditProjectionForm.controls['apiYear'].errors}"
                         formControlName="apiYear" />
@@ -33,7 +33,7 @@
                     <label for="peakDay">Peak (Day Volume)</label>
                     <input type="number" id="peakDay" class="form-control" placeholder="day volume" name="pw"
                         [class]="{'is-invalid':isEditFormSubmitted && apiEditProjectionForm.controls['apiPeakDay'].errors}"
-                        formControlName="apiPeakDay" />
+                        formControlName="apiPeakDay" /> -->
                     <div class="modal-footer">
                         <button type="submit" [disabled]="isEditFormSubmitted && apiEditProjectionForm.invalid"
                            >Edit</button>

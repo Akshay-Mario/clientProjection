@@ -1,5 +1,7 @@
+import { GridApi } from "ag-grid-community";
+
 import { Component, inject, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { faCirclePlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IapiColDef, IapiProjectionModel } from 'src/app/models/apiprojeciton.model';
@@ -20,77 +22,111 @@ export class ApiProjectionComponent {
   public isAddFormSubmitted: boolean = false;
   public isformSubmitSucess: boolean = false;
   public year: Number[] = [];
-  
+  public gridApi = new GridApi
+  public context: any = {};
   public faEdit = faEdit;
 
 
   // Row Data: The data to be displayed.
   // rowData2 = [
-  //   { ApiName: "apiname", Hourly2023: 233232, Daily2023: 323234, Hourly2024: 23093344, Daily2024: 354645 },
+  //   { id= 12 , ApiName: "apiname", Hourly2023: 233232, Daily2023: 323234, Hourly2024: 23093344, Daily2024: 354645 },
   //   { ApiName: "apiname2", Hourly2023: 233232, Daily2023: 323234, Hourly2025: 23093344, Daily2025: 354645 },
 
   // ];
 
-  // colDefs2: (ColDef<{ ApiName: string; Hourly: string; Daily: number; }> | ColGroupDef)[] = [
-  //   { headerName: 'Api Name', field: "ApiName" },
-  //   {
-  //     headerName: "2023", children: [
-  //       { headerName: 'Hourly(peak Hours)', field: 'Hourly2023' },
-  //       { headerName: 'Daily(peak Hours)', field: 'Daily2023' }
-  //     ]
-  //   },
-  //   {
-  //     headerName: "2024", children: [
-  //       { headerName: 'Hourly(peak Hours)', field: 'Hourly2024' },
-  //       { headerName: 'Daily(peak Hours)', field: 'Daily2024' }
-  //     ]
-  //   },
-  //   {
-  //     headerName: "2025", children: [
-  //       { headerName: 'Hourly(peak Hours)', field: 'Hourly2025' },
-  //       { headerName: 'Daily(peak Hours)', field: 'Daily2025' }
-  //     ]
-  //   },
-
+  rowData: any = []
+  // rowData: any= [
+  //   { apiName: 'API 1', hourly2024: 100, daily2024: 1000, hourly: 100, daily: 1000 },
+  //   { apiName: 'API 1', "2023": { hourly: 100, daily: 1000 }, '2024': { hourly: 200, daily: 2000 }, '2025': { hourly: 300, daily: 3000 } },
+  //   { apiName: 'API 2', '2023': { hourly: 150, daily: 1500 }, '2024': { hourly: 250, daily: 2500 }, '2025': { hourly: 350, daily: 3500 } },
   // ];
+
+
+  colDefs: any = [
+    { headerName: 'Actions', field: "actions", cellRenderer: EditDeletebuttonComponent, width: 100 },
+    { headerName: 'Api Name', field: "apiName" },
+    // {
+    //   headerName: "2023", field: "2023", children: [
+    //     { headerName: 'Hourly(peak Hours)', field: 'hourly2023' },
+    //     { headerName: 'Daily(peak Hours)', field: 'daily2023' }
+    //   ]
+    // },
+    // {
+    //   headerName: "2024", field: "2023", children: [
+    //     { headerName: 'Hourly(peak Hours)', field: 'hourly2024' },
+    //     { headerName: 'Daily(peak Hours)', field: 'daily2024' }
+    //   ]
+    // },
+    // {
+    //   headerName: "2025", field: "2023", children: [
+    //     { headerName: 'Hourly(peak Hours)', field: 'hourly2025' },
+    //     { headerName: 'Daily(peak Hours)', field: 'daily2025' }
+    //   ]
+    // },
+
+  ];
 
 
   constructor(private formgroup: FormBuilder,
     private apiProjectionService: ApiProjectionService,
     private yearService: YearService) {
     this.apiAddProjection = {} as FormGroup;
+    this.context = {
+      componentParent: this
+  }
   }
 
 
-  rowData: IapiProjectionModel[] = [];
 
-  colDefs: IapiColDef[] = [
-    { headerName: 'Api Name', field: "apiName" },
-    { headerName: 'Year', field: "apiYear" },
-    { headerName: 'Peak(Hour Volume)', field: "apiPeakHour" },
-    { headerName: 'Peak(Day VOlume)', field: "apiPeakDay" },
-    { headerName: 'Actions', field: "actions",  cellRenderer:  EditDeletebuttonComponent},
-  ]
+
+  // colDefs: IapiColDef[] = [
+  //   { headerName: 'Api Name', field: "apiName" },
+  //   { headerName: 'Year', field: "apiYear" },
+  //   { headerName: 'Peak(Hour Volume)', field: "apiPeakHour" },
+  //   { headerName: 'Peak(Day VOlume)', field: "apiPeakDay" },
+  //   { headerName: 'Actions', field: "actions",  cellRenderer:  EditDeletebuttonComponent},
+  // ]
 
   ngOnInit() {
     this.initializeForm();
     this.getTableData();
+    this.generateColDef();
+  }
+
+  // Event handler function for GridReady event
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+  }
+
+  public generateColDef(): void {
+
+    this.yearService.getYearData().subscribe((result) => {
+      for (let i in result) {
+        if (i !== "id") {
+          const addColmDef = {
+            headerName: result[i], field: result[i], children: [
+              { headerName: 'Hourly(peak Hours)', field: `hourly${result[i]}` },
+              { headerName: 'Daily(peak Hours)', field: `daily${result[i]}` }
+            ]
+          }
+          this.colDefs.push(addColmDef);
+        }
+      }
+      this.gridApi.setGridOption("columnDefs", this.colDefs);
+
+    })
   }
 
   public initializeForm() {
     this.apiAddProjection = this.formgroup.group({
       id: [],
       apiName: ['', Validators.required],
-      apiYear: ['', Validators.required],
-      apiPeakHour: ['', Validators.required],
-      apiPeakDay: ['', Validators.required],
     },
     )
   }
 
   public getTableData() {
     this.apiProjectionService.getApiProjeciton().subscribe((result) => {
-      console.log(result);
       this.rowData = result;
     });
   }
@@ -129,27 +165,25 @@ export class ApiProjectionComponent {
       return;
     }
     //declare constants
-    const yearValue = this.apiAddProjection.get('apiYear')?.value;
+    // const yearValue = this.apiAddProjection.get('apiYear')?.value;
     const formValues = this.apiAddProjection.value
 
-    //if valid add value to id 
-    formValues["id"] = Math.floor(Math.random() * 100000);
+    //if valid add value to id
+    formValues["id"] = Math.floor(Math.random() * 100000).toString();
 
-    //fetch all years and check if year addded was already present
-    this.yearService.getYearData().subscribe((result) => {
-      result = Object.values(result);
-      const numericValues = result.filter((value: any) => typeof value === 'number');
-      this.year = numericValues;
+    // //fetch all years and check if year addded was already present
+    // this.yearService.getYearData().subscribe((result) => {
+    //   result = Object.values(result);
+    //   const numericValues = result.filter((value: any) => typeof value === 'number');
+    //   this.year = numericValues;
 
-      if (this.year.indexOf(yearValue) === -1) {
-        this.year.push(yearValue)
-        console.log("yeartest:", this.year)
-        this.yearService.putYearData(this.year).subscribe((result) => {
-          console.log('added year successfully', result);
-        })
-      }
+    // if (this.year.indexOf(yearValue) === -1) {
+    //   this.year.push(yearValue)
+    //   this.yearService.putYearData(this.year).subscribe((result) => {
+    //   })
+    // }
 
-    })
+    // })
 
     //post methid to add data
     this.apiProjectionService.postApiProjection(formValues).subscribe((result) => {
@@ -174,7 +208,8 @@ export class ApiProjectionComponent {
 
   isDuplicate(): boolean {
     const formData = this.apiAddProjection.value;
-    return this.rowData.some(item => item.apiName === formData.apiName && item.apiYear === formData.apiYear);
+    return this.rowData.some((item: any) => item.apiName === formData.apiName);
   }
+
 
 }

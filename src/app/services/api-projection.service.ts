@@ -13,7 +13,7 @@ export class ApiProjectionService {
   constructor(private httpClient: HttpClient) { }
 
   //psot API call for adding data 
-  postApiProjection(newData: IapiProjectionModel): Observable<string | any> {
+  postApiProjection(newData: any): Observable<string | any> {
     let URL = apiUrl + 'apiProjection';
     let isCached = false;
 
@@ -28,4 +28,17 @@ export class ApiProjectionService {
     let isCached = false;
     return this.httpClient.get<IapiProjectionModel[]>(URL);
   }
+
+  public deleteApiProjecitonById(id: number): Observable<IapiProjectionModel[]> {
+    let URL = apiUrl + `apiProjection/${id}`;
+    return this.httpClient.delete<IapiProjectionModel[]>(URL);
+  }
+
+  public patchApiProjectionById(apiName: string, id: number): Observable<any[]> {
+    let URL = apiUrl + `apiProjection/${id}`;
+    return this.httpClient.patch<any[]>(URL, {apiName: apiName});
+    
+  }
+
+
 }

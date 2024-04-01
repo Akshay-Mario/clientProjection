@@ -13,6 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EditDeletebuttonComponent } from './homecomponent/api-projection/edit-deletebutton/edit-deletebutton.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { EditDeleteclientComponent } from './homecomponent/client-projection/edit-deleteclient/edit-deleteclient.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { EditDeletebuttonComponent } from './homecomponent/api-projection/edit-d
     DashboardComponent,
     ApiProjectionComponent,
     ClientProjectionComponent,
-    EditDeletebuttonComponent
+    EditDeletebuttonComponent,
+    EditDeleteclientComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { EditDeletebuttonComponent } from './homecomponent/api-projection/edit-d
     AgGridAngular,
     NgbModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AgGridModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

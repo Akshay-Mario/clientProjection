@@ -1,0 +1,15 @@
+
+.projection-container {
+    display: flex;
+    width: 100%;
+}
+
+#apiprojection {
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    flex: 1; 
+    margin-top: 1%;
+    height: 100%;
+}
+

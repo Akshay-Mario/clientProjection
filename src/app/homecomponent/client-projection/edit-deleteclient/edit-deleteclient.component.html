@@ -1,0 +1,32 @@
+<div id="action-comtainer">
+    <button class="action-button" (click)="editButton(apiEditModal)"><fa-icon class="icon-side-panel grey"
+            [icon]="editIcon"></fa-icon></button>
+    <button class="action-button red" (click)="deleteButton(deleteModal)"><fa-icon class="icon-side-panel red"
+            [icon]="deleteicon"></fa-icon></button>
+
+</div>
+
+
+<ng-template #apiEditModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="delte-modal">Delete Data</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete this item?
+    </div>
+    
+
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="delte-modal">Delete Data</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete this item?
+    </div>
+    
+
+</ng-template>

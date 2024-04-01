@@ -26,6 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
     "ag-grid-angular": "^31.2.0",
+    "ag-grid-enterprise": "^31.2.0",
     "bootstrap": "^5.3.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

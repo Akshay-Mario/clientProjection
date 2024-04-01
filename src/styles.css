@@ -131,8 +131,12 @@ button {
     width: 100%;
 }
 
-input {
+input, select {
     border-radius: 5px !important;
+}
+
+form {
+    background-color: #949494;
 }
 
 .form-control::placeholder {
@@ -141,4 +145,8 @@ input {
 
 .cursor, .cursor button label {
     cursor: pointer !important;
+}
+
+.d-none {
+    display: none;
 }
