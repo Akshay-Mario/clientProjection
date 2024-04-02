@@ -1,42 +1,54 @@
 {
   "apiProjection": [
     {
-      "id": "2",
-      "apiName": "api Name",
-      "hourly2023": 2,
-      "daily2023": 2,
-      "hourly2024": 2,
-      "daily2024": 2
+      "id": "2973",
+      "apiName": "apikname",
+      "hourly2023": 234,
+      "daily2023": 3423,
+      "hourly2024": 23432,
+      "daily2024": 23423
     },
     {
-      "id": "73784",
-      "apiName": "sdfc"
-    },
-    {
-      "id": "16346",
-      "apiName": "new api"
-    },
-    {
-      "id": "61428",
-      "apiName": "new api 2"
+      "id": "15423",
+      "apiName": "asx",
+      "hourly2023": 234,
+      "daily2023": 234,
+      "hourly2024": 23423,
+      "daily2024": 23423
     }
   ],
   "clientProjection": [
     {
-      "id": "2",
-      "clientName": "XOLT Locator",
-      "year": 2008,
-      "apiID": "73784",
-      "hourly": 8,
-      "daily": 0
+      "id": "8358",
+      "clientName": "xolt locator",
+      "year": 2023,
+      "apiID": "2973",
+      "hourly": 2300,
+      "daily": 3400
     },
     {
-      "id": "3",
-      "clientName": "XOLT Locator",
-      "year": 2004,
-      "apiID": "2",
-      "hourly": 6,
-      "daily": 0
+      "id": "63557",
+      "clientName": "XOLT locator",
+      "year": 2023,
+      "apiID": "15423",
+      "hourly": 234,
+      "daily": 234
+    },
+    {
+      "id": "96950",
+      "clientName": "XOLT locator",
+      "year": 2024,
+      "apiID": "2973",
+      "hourly": 23432,
+      "daily": 23423
+    },
+    {
+      "id": "97963",
+      "clientName": "xolt locator",
+      "year": 2024,
+      "apiID": "15423",
+      "hourly": 23423,
+      "daily": 23423
     }
   ],
   "year": [

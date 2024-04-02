@@ -17,6 +17,7 @@ import { EditDeleteclientComponent } from "./edit-deleteclient/edit-deleteclient
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiProjectionService } from "src/app/services/api-projection.service";
 import { ClientProjectionService } from "src/app/services/client-projection.service";
+import { YearService } from "src/app/services/year.service";
 
 @Component({
   selector: 'app-client-projection',
@@ -76,7 +77,8 @@ export class ClientProjectionComponent {
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder,
     private apiProjectionService: ApiProjectionService,
-    private clientProjectionServices: ClientProjectionService) {
+    private clientProjectionServices: ClientProjectionService,
+    private yearService: YearService) {
     this.clientProjectionForm = {} as FormGroup;
     this.context = {
       componentParent: this
@@ -85,6 +87,7 @@ export class ClientProjectionComponent {
 
   ngOnInit() {
     this.intilizeForm();
+    this.getApiNames();
   }
 
   // Event handler function for GridReady event
@@ -143,7 +146,7 @@ export class ClientProjectionComponent {
   }
 
   //opening add modal
-  public openingAddModal(content: TemplateRef<any>):void {
+  public openingAddModal(content: TemplateRef<any>): void {
     this.getApiNames();
     this.openAddModal(content);
 
@@ -179,28 +182,51 @@ export class ClientProjectionComponent {
     formValues["id"] = Math.floor(Math.random() * 100000).toString();
 
     //update api projections
-    console.log("update :",this.apiProjectionData[formValues["apiID"]], formValues["apiID"], this.apiProjectionData["73784"]);
     const hParameter = 'hourly' + formValues.year;
     const dParameter = 'daily' + formValues.year;
 
-    console.log("hparameter :",hParameter,dParameter, formValues["apiID"][`${hParameter}`],  formValues["apiID"]["hourly2023"]);
 
-    if(formValues["apiID"][`${hParameter}`]) {
-      const prevVal = formValues["apiID"][`${hParameter}`];
-      formValues["apiID"][`${hParameter}`] = prevVal + formValues.hourly;
+    if (formValues["apiID"][`${hParameter}`]) {
+      formValues["apiID"][`${hParameter}`]  += formValues.hourly;
     }
     else {
       formValues["apiID"][`${hParameter}`] = formValues.hourly
     }
-    if(formValues["apiID"][`${dParameter}`]) {
-      const prevVal = formValues["apiID"][`${dParameter}`];
-      formValues["apiID"][`${dParameter}`] = prevVal + formValues.daily;
+    if (formValues["apiID"][`${dParameter}`]) {
+      formValues["apiID"][`${dParameter}`] += formValues.daily;
     }
     else {
       formValues["apiID"][`${dParameter}`] = formValues.daily
     }
 
     console.log("updated value :", formValues["apiID"], this.clientProjectionForm.value.apiID);
+
+    //update api projectiondata
+    this.apiProjectionService.patchApiProjectionNDataById(formValues["apiID"], formValues["apiID"].id).subscribe((result) => {
+      console.log("patched successfully", result)
+    })
+
+    //add client projection data
+    if(typeof formValues.apiID === 'object') {
+        formValues.apiID = formValues.apiID.id;
+    }
+
+    this.clientProjectionServices.postClientProjection(formValues).subscribe((result) => {
+      console.log("successfully added clietn projectoin data", result);
+      this.getClientTableData();
+    });
+
+
+    this.yearService.getYearData().subscribe((result) => {
+      const yearArray = Object.values(result);
+      yearArray.pop(); 
+      if (!yearArray.includes(formValues.year)) {
+        yearArray.push(formValues.year);
+        this.yearService.putYearData(yearArray).subscribe((result) => {
+          console.log("Added year data:", result);
+        });
+      }
+    });
 
     //reset form
     this.clientProjectionForm.reset();
@@ -211,12 +237,12 @@ export class ClientProjectionComponent {
 
   isDuplicate(): boolean {
     const formData = this.clientProjectionForm.value;
-    const isDuplicate = this.rowData.some((item: any) => 
-                          item.apiID === formData["apiID"].id && 
-                          item.clientName.toLowerCase() === formData["clientName"].toLowerCase() && 
-                          item.year === formData["year"]);
+    const isDuplicate = this.rowData.some((item: any) =>
+      item.apiID === formData["apiID"].id &&
+      item.clientName.toLowerCase() === formData["clientName"].toLowerCase() &&
+      item.year === formData["year"]);
     console.log(isDuplicate)
-   return isDuplicate;
+    return isDuplicate;
 
   }
 

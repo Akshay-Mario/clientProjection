@@ -12,9 +12,37 @@
         <h4 class="modal-title" id="delte-modal">Delete Data</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
-    <div class="modal-body">
-        Are you sure you want to delete this item?
-    </div>
+    <form class="input-group" (ngSubmit)="onSubmit()" [formGroup]="clientEditProjectionForm">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="clientName">Client name</label>
+                <input id="clientName" class="form-control" placeholder="client name" name="dp"
+                    [class]="{'is-invalid':isEditFormSubmitted && clientEditProjectionForm.controls['clientName'].errors}"
+                    formControlName="clientName" />
+                <label for="serviceName">Api name</label>
+                <select class="form-control form-select" id="apiName" formControlName="apiID"
+                    [class]="{'is-invalid':isEditFormSubmitted && clientEditProjectionForm.controls['clientName'].errors}">
+                    <option value="" disabled selected>Select api</option> <!-- Placeholder option -->
+                    <option *ngFor="let api of apiProjectionData" [ngValue]="api" [selected]="api.id === this.rowData.apiID"
+                    >{{ api["apiName"] }}</option>
+                </select>
+                <label for="year">Year</label>
+                <input id="year" type="number" class="form-control" placeholder="year" name="year"
+                    [class]="{'is-invalid':isEditFormSubmitted && clientEditProjectionForm.controls['year'].errors}"
+                    formControlName="year" />
+                <label for="hourly">Hourly Peak</label>
+                <input id="hourly" type="number" class="form-control" placeholder="hourly" name="dp"
+                    formControlName="hourly" /> 
+                <label for="daily">Daily Peak</label>
+                <input id="daily" type="number" class="form-control" placeholder="daily" name="dp"
+                    formControlName="daily" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" [disabled]="isEditFormSubmitted && clientEditProjectionForm.invalid">Add</button>
+        </div>
+    </form>
     
 
 </ng-template>

@@ -34,11 +34,19 @@ export class ApiProjectionService {
     return this.httpClient.delete<IapiProjectionModel[]>(URL);
   }
 
-  public patchApiProjectionById(apiName: string, id: number): Observable<any[]> {
+  public patchApiProjectionNameById(apiName: string, id: number): Observable<any[]> {
     let URL = apiUrl + `apiProjection/${id}`;
     return this.httpClient.patch<any[]>(URL, {apiName: apiName});
     
   }
+
+  
+  public patchApiProjectionNDataById(apiData: any, id: string): Observable<any[]> {
+    let URL = apiUrl + `apiProjection/${id}`;
+    return this.httpClient.patch<any[]>(URL, apiData);
+    
+  }
+
 
 
 }

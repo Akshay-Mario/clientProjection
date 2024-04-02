@@ -76,7 +76,6 @@ export class EditDeletebuttonComponent implements ICellRendererAngularComp {
 
   editButton(editModal: any) {
     this.openEditModal(editModal);
-    console.warn("hellp", this.rowData);
     this.apiEditProjectionForm.patchValue(this.rowData);
 
   }
@@ -93,7 +92,7 @@ export class EditDeletebuttonComponent implements ICellRendererAngularComp {
       return
     }
     const rowData = this.apiEditProjectionForm.value;
-    this.apiPorjectionService.patchApiProjectionById(rowData["apiName"], rowData["id"]).subscribe((result) => {
+    this.apiPorjectionService.patchApiProjectionNameById(rowData["apiName"], rowData["id"]).subscribe((result) => {
       console.log("patched the value succesfully", result);
       this.componentParent.getTableData();
 

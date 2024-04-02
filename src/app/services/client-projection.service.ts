@@ -16,4 +16,10 @@ export class ClientProjectionService {
     let isCached = false;
     return this.http.get<any[]>(URL);
   }
+
+  public postClientProjection(data: any): Observable<any[]> {
+    let URL = apiUrl + 'clientProjection';
+    let isCached = false;
+    return this.http.post<any[]>(URL, data);
+  }
 }

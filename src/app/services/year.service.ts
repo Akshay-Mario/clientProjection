@@ -17,7 +17,7 @@ export class YearService {
       return this.httpClient.get(URL);
   }
 
-  putYearData(data: Number[]):Observable<any> {
+  putYearData(data: any):Observable<any> {
     let URL = apiUrl + 'year/yearData';
     return this.httpClient.put(URL,data);
   }
